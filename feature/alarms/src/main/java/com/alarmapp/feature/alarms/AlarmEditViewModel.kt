@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alarmapp.core.domain.model.Alarm
 import com.alarmapp.core.domain.model.DismissChallenge
+import com.alarmapp.core.domain.model.VibrationPattern
 import com.alarmapp.core.domain.repository.AlarmRepository
 import com.alarmapp.core.domain.usecase.DeleteAlarmUseCase
 import com.alarmapp.core.domain.usecase.SaveAlarmUseCase
@@ -58,6 +59,12 @@ class AlarmEditViewModel @Inject constructor(
         _state.update { it.copy(alarm = it.alarm.copy(fadeInSeconds = seconds)) }
     fun setVolumePercent(percent: Int) =
         _state.update { it.copy(alarm = it.alarm.copy(volumePercent = percent)) }
+
+    fun setSoundUri(uri: String?) =
+        _state.update { it.copy(alarm = it.alarm.copy(soundUri = uri)) }
+
+    fun setVibrationPattern(pattern: VibrationPattern) =
+        _state.update { it.copy(alarm = it.alarm.copy(vibrationPattern = pattern)) }
 
     fun save(onDone: () -> Unit) {
         viewModelScope.launch {

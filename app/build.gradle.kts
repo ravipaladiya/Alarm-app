@@ -63,6 +63,7 @@ dependencies {
     implementation(project(":feature:challenges"))
     implementation(project(":feature:settings"))
     implementation(project(":feature:sleep"))
+    implementation(project(":feature:permissions"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

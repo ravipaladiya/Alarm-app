@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permissions_title">Permissions</string>
+    <string name="permissions_intro_warning">Some alarm permissions are missing. Alarms may not fire reliably until you grant them.</string>
+    <string name="permissions_intro_ok">All required permissions are granted. Your alarms will fire on time.</string>
+    <string name="permissions_optional">Optional</string>
+    <string name="permissions_grant">Grant</string>
+    <string name="permissions_check">Check</string>
+    <string name="permissions_status_granted">Granted</string>
+    <string name="permissions_status_denied">Denied</string>
+    <string name="permissions_status_not_applicable">Not required on this device</string>
+    <string name="permissions_status_unknown">Unknown</string>
+
+    <string name="permissions_notifications_title">Notifications</string>
+    <string name="permissions_notifications_description">Required for the full-screen alarm notification. Without this, alarms will not surface when your phone is locked.</string>
+    <string name="permissions_exact_alarms_title">Exact alarms</string>
+    <string name="permissions_exact_alarms_description">Required so Android will wake the device exactly at the alarm time, even in Doze.</string>
+    <string name="permissions_full_screen_intent_title">Full-screen intent</string>
+    <string name="permissions_full_screen_intent_description">Lets the alarm take over the screen when the phone is locked. Android 14+ requires this to be granted manually.</string>
+    <string name="permissions_battery_title">Ignore battery optimizations</string>
+    <string name="permissions_battery_description">Prevents the OS and aggressive OEM battery savers from delaying or dropping alarms.</string>
+
+    <string name="permissions_banner_title">Alarms may not fire</string>
+    <string name="permissions_banner_body">Some required permissions are missing.</string>
+    <string name="permissions_banner_cta">Fix</string>
+</resources>

@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.alarmapp.feature.alarms"
 }
+
+dependencies {
+    implementation(project(":feature:permissions"))
+}

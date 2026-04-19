@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.alarmapp.feature.alarms.AlarmEditScreen
 import com.alarmapp.feature.alarms.AlarmListScreen
+import com.alarmapp.feature.permissions.PermissionsScreen
 import com.alarmapp.feature.settings.SettingsScreen
 import com.alarmapp.feature.sleep.SleepScreen
 
@@ -17,6 +18,7 @@ object Routes {
     const val ALARM_EDIT_PATTERN = "alarms/edit?id={id}"
     const val SETTINGS = "settings"
     const val SLEEP = "sleep"
+    const val PERMISSIONS = "permissions"
 
     fun editAlarm(id: Long?): String =
         if (id == null) "alarms/edit" else "alarms/edit?id=$id"
@@ -35,6 +37,7 @@ fun AppNavHost() {
                 onEditAlarm = { id -> navController.navigate(Routes.editAlarm(id)) },
                 onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                 onOpenSleep = { navController.navigate(Routes.SLEEP) },
+                onOpenPermissions = { navController.navigate(Routes.PERMISSIONS) },
             )
         }
         composable(
@@ -50,10 +53,16 @@ fun AppNavHost() {
             AlarmEditScreen(onDone = { navController.popBackStack() })
         }
         composable(Routes.SETTINGS) {
-            SettingsScreen(onBack = { navController.popBackStack() })
+            SettingsScreen(
+                onBack = { navController.popBackStack() },
+                onOpenPermissions = { navController.navigate(Routes.PERMISSIONS) },
+            )
         }
         composable(Routes.SLEEP) {
             SleepScreen(onBack = { navController.popBackStack() })
+        }
+        composable(Routes.PERMISSIONS) {
+            PermissionsScreen(onBack = { navController.popBackStack() })
         }
     }
 }

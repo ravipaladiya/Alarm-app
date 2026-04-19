@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="alarm_list_title">Alarms</string>
+    <string name="alarm_list_add">New alarm</string>
+    <string name="alarm_list_open_sleep">Open sleep</string>
+    <string name="alarm_list_open_settings">Open settings</string>
+    <string name="alarm_list_empty_title">No alarms yet</string>
+    <string name="alarm_list_empty_body">Tap the button below to add your first alarm.</string>
+    <string name="alarm_list_repeat_once">Once</string>
+    <string name="alarm_row_description_enabled">Alarm at %1$s for %2$s, enabled</string>
+    <string name="alarm_row_description_disabled">Alarm at %1$s for %2$s, disabled</string>
+
+    <string name="day_short_monday">Mon</string>
+    <string name="day_short_tuesday">Tue</string>
+    <string name="day_short_wednesday">Wed</string>
+    <string name="day_short_thursday">Thu</string>
+    <string name="day_short_friday">Fri</string>
+    <string name="day_short_saturday">Sat</string>
+    <string name="day_short_sunday">Sun</string>
+
+    <string name="alarm_edit_title_new">New alarm</string>
+    <string name="alarm_edit_title_edit">Edit alarm</string>
+    <string name="alarm_edit_action_save">Save</string>
+    <string name="alarm_edit_action_save_progress">Saving…</string>
+    <string name="alarm_edit_action_delete">Delete</string>
+    <string name="alarm_edit_label">Label</string>
+    <string name="alarm_edit_repeat">Repeat</string>
+    <string name="alarm_edit_challenge">Dismiss challenge</string>
+    <string name="alarm_edit_challenge_none">None</string>
+    <string name="alarm_edit_challenge_math">Math</string>
+    <string name="alarm_edit_challenge_shake">Shake</string>
+    <string name="alarm_edit_challenge_qr">QR</string>
+    <string name="alarm_edit_challenge_typing">Typing</string>
+    <string name="alarm_edit_volume">Volume: %1$d%%</string>
+    <string name="alarm_edit_fade_in">Fade-in: %1$ds</string>
+    <string name="alarm_edit_snooze">Snooze: %1$d min</string>
+    <string name="alarm_edit_sound">Sound</string>
+    <string name="alarm_edit_sound_default">Default alarm sound</string>
+    <string name="alarm_edit_sound_pick">Choose sound</string>
+    <string name="alarm_edit_vibration">Vibration</string>
+    <string name="alarm_edit_vibration_none">Off</string>
+    <string name="alarm_edit_vibration_gentle">Gentle</string>
+    <string name="alarm_edit_vibration_default">Default</string>
+    <string name="alarm_edit_vibration_strong">Strong</string>
+    <string name="alarm_edit_skip_next">Skip next occurrence</string>
+
+    <string name="day_monday">Monday</string>
+    <string name="day_tuesday">Tuesday</string>
+    <string name="day_wednesday">Wednesday</string>
+    <string name="day_thursday">Thursday</string>
+    <string name="day_friday">Friday</string>
+    <string name="day_saturday">Saturday</string>
+    <string name="day_sunday">Sunday</string>
+</resources>

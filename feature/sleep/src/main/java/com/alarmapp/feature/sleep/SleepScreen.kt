@@ -9,19 +9,24 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.alarmapp.core.designsystem.component.AlarmTopBar
 
 @Composable
 fun SleepScreen(onBack: () -> Unit) {
-    Scaffold(topBar = { AlarmTopBar(title = "Sleep", onBack = onBack) }) { padding ->
+    Scaffold(
+        topBar = {
+            AlarmTopBar(title = stringResource(R.string.sleep_title), onBack = onBack)
+        },
+    ) { padding ->
         Column(
             modifier = Modifier.padding(padding).padding(16.dp).fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Text("Bedtime tracking", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.sleep_bedtime), style = MaterialTheme.typography.titleMedium)
             Text(
-                text = "Bedtime reminders and sleep history will appear here.",
+                text = stringResource(R.string.sleep_placeholder),
                 style = MaterialTheme.typography.bodyMedium,
             )
         }

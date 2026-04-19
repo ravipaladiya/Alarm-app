@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sleep_title">Sleep</string>
+    <string name="sleep_bedtime">Bedtime tracking</string>
+    <string name="sleep_placeholder">Bedtime reminders and sleep history will appear here.</string>
+</resources>
