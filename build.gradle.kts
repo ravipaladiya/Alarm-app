@@ -11,12 +11,12 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.google.services) apply false
-    alias(libs.plugins.spotless)
+    alias(libs.plugins.spotless) apply false
     alias(libs.plugins.detekt)
 }
 
 allprojects {
-    apply(plugin = rootProject.libs.plugins.spotless.get().pluginId)
+    apply(plugin = "com.diffplug.spotless")
     configure<SpotlessExtension> {
         kotlin {
             target("src/**/*.kt")

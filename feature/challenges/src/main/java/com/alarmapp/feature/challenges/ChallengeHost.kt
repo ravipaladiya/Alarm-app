@@ -1,6 +1,7 @@
 package com.alarmapp.feature.challenges
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import com.alarmapp.core.domain.model.DismissChallenge
 
 /**
@@ -23,7 +24,7 @@ fun ChallengeHost(
     onProgress: () -> Unit,
 ) {
     when (challenge) {
-        is DismissChallenge.None -> onComplete()
+        is DismissChallenge.None -> LaunchedEffect(Unit) { onComplete() }
         is DismissChallenge.Math -> MathChallenge(difficulty = challenge.difficulty, onComplete = onComplete)
         is DismissChallenge.Shake -> ShakeChallenge(count = challenge.count, onComplete = onComplete, onProgress = onProgress)
         is DismissChallenge.Typing -> TypingChallenge(text = challenge.text, onComplete = onComplete)

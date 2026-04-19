@@ -9,6 +9,7 @@ import com.alarmapp.core.domain.usecase.SaveAlarmUseCase
 import com.alarmapp.core.domain.scheduler.AlarmScheduler
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -33,7 +34,7 @@ class AlarmEditViewModelTest {
 
     @Test fun `new alarm starts at 07 00`() = runTest(dispatcher) {
         val repo = mockk<AlarmRepository>(relaxed = true).apply {
-            coEvery { observeAll() } returns flowOf(emptyList())
+            every { observeAll() } returns flowOf(emptyList())
         }
         val scheduler = mockk<AlarmScheduler>(relaxed = true)
         val vm = AlarmEditViewModel(

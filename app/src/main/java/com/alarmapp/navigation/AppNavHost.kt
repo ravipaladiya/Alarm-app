@@ -1,9 +1,11 @@
 package com.alarmapp.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.alarmapp.feature.alarms.AlarmEditScreen
 import com.alarmapp.feature.alarms.AlarmListScreen
 import com.alarmapp.feature.settings.SettingsScreen
@@ -35,7 +37,16 @@ fun AppNavHost() {
                 onOpenSleep = { navController.navigate(Routes.SLEEP) },
             )
         }
-        composable(Routes.ALARM_EDIT_PATTERN) {
+        composable(
+            route = Routes.ALARM_EDIT_PATTERN,
+            arguments = listOf(
+                navArgument("id") {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                },
+            ),
+        ) {
             AlarmEditScreen(onDone = { navController.popBackStack() })
         }
         composable(Routes.SETTINGS) {

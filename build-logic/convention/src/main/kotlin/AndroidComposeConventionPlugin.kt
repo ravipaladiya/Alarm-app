@@ -27,6 +27,7 @@ class AndroidComposeConventionPlugin : Plugin<Project> {
                     "androidx-compose-ui-graphics",
                     "androidx-compose-ui-tooling-preview",
                     "androidx-compose-material3",
+                    "androidx-compose-material-icons-extended",
                     "androidx-compose-foundation",
                     "androidx-activity-compose",
                     "androidx-lifecycle-runtime-compose",
