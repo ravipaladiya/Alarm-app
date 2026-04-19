@@ -7,6 +7,16 @@ plugins {
 
 android {
     namespace = "com.alarmapp.core.data"
+    // Expose the exported Room schemas as androidTest assets so
+    // MigrationTestHelper can load the previous schema JSON at runtime.
+    sourceSets.getByName("androidTest").assets.srcDir("$projectDir/schemas")
+}
+
+// Export Room schemas to source control so every version bump is reviewable
+// and migrations can be verified against a known-good previous schema.
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("room.incremental", "true")
 }
 
 dependencies {
@@ -24,4 +34,8 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.mockk)
     testImplementation(libs.robolectric)
+
+    androidTestImplementation(libs.androidx.room.testing)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.runner)
 }

@@ -6,6 +6,7 @@ import com.alarmapp.core.common.time.Clock
 import com.alarmapp.core.common.time.SystemClock
 import com.alarmapp.core.data.db.AlarmDao
 import com.alarmapp.core.data.db.AlarmDatabase
+import com.alarmapp.core.data.db.AlarmDatabaseMigrations
 import com.alarmapp.core.data.db.SleepDao
 import com.alarmapp.core.data.repository.AlarmRepositoryImpl
 import com.alarmapp.core.data.repository.SleepRepositoryImpl
@@ -26,7 +27,7 @@ object DataModule {
     @Provides @Singleton
     fun provideDatabase(@ApplicationContext context: Context): AlarmDatabase =
         Room.databaseBuilder(context, AlarmDatabase::class.java, "alarm.db")
-            .fallbackToDestructiveMigration()
+            .addMigrations(*AlarmDatabaseMigrations.ALL)
             .build()
 
     @Provides fun provideAlarmDao(db: AlarmDatabase): AlarmDao = db.alarmDao()
