@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="sleep_title">Sleep</string>
-    <string name="sleep_bedtime">Bedtime tracking</string>
-    <string name="sleep_placeholder">Bedtime reminders and sleep history will appear here.</string>
+    <string name="sleep_bedtime">Bedtime</string>
+    <string name="sleep_start">Start bedtime</string>
+    <string name="sleep_end">I\'m awake</string>
+    <string name="sleep_history">Recent sessions</string>
+    <string name="sleep_history_empty">No sessions yet. Tap "Start bedtime" to log your first.</string>
+    <string name="sleep_in_progress">In progress…</string>
 </resources>
