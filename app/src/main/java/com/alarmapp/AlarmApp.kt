@@ -5,6 +5,8 @@ import android.content.pm.ApplicationInfo
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.alarmapp.core.alarm.NotificationChannels
+import com.alarmapp.core.common.crash.CrashReporter
+import com.alarmapp.core.common.crash.CrashReportingTree
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
@@ -13,11 +15,14 @@ import javax.inject.Inject
 class AlarmApp : Application(), Configuration.Provider {
 
     @Inject lateinit var workerFactory: HiltWorkerFactory
+    @Inject lateinit var crashReporter: CrashReporter
 
     override fun onCreate() {
         super.onCreate()
         if (isDebuggable()) {
             Timber.plant(Timber.DebugTree())
+        } else {
+            Timber.plant(CrashReportingTree(crashReporter))
         }
         NotificationChannels.ensureCreated(this)
     }

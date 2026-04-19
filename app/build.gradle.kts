@@ -1,8 +1,22 @@
+import java.util.Properties
+
 plugins {
     id("alarmapp.android.application")
     id("alarmapp.android.compose")
     id("alarmapp.android.hilt")
 }
+
+// Read keystore credentials from a git-ignored keystore.properties file (see
+// keystore.properties.template). Release builds fall back to the debug keystore
+// if the file is missing, so development flows don't break for contributors
+// without the release key, but CI will fail the sign step — by design.
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties().apply {
+    if (keystorePropertiesFile.exists()) {
+        keystorePropertiesFile.inputStream().use(::load)
+    }
+}
+val hasReleaseKeystore = keystoreProperties.getProperty("storeFile") != null
 
 android {
     namespace = "com.alarmapp"
@@ -16,8 +30,13 @@ android {
     }
 
     signingConfigs {
-        getByName("debug") {
-            // Default Android debug keystore is auto-created; no action needed.
+        if (hasReleaseKeystore) {
+            create("release") {
+                storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
         }
     }
 
@@ -33,7 +52,14 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (hasReleaseKeystore) {
+                signingConfigs.getByName("release")
+            } else {
+                // Developer-convenience fallback: dev can build `:app:assembleRelease`
+                // locally without a release key. Play Store / CI must supply a real
+                // keystore.properties.
+                signingConfigs.getByName("debug")
+            }
         }
     }
 
