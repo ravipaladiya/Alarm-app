@@ -5,8 +5,9 @@ import app.cash.turbine.test
 import com.alarmapp.core.domain.model.Alarm
 import com.alarmapp.core.domain.model.DismissChallenge
 import com.alarmapp.core.domain.repository.AlarmRepository
-import com.alarmapp.core.domain.usecase.SaveAlarmUseCase
 import com.alarmapp.core.domain.scheduler.AlarmScheduler
+import com.alarmapp.core.domain.usecase.DeleteAlarmUseCase
+import com.alarmapp.core.domain.usecase.SaveAlarmUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -41,6 +42,7 @@ class AlarmEditViewModelTest {
             savedStateHandle = SavedStateHandle(),
             repository = repo,
             saveAlarm = SaveAlarmUseCase(repo, scheduler),
+            deleteAlarm = DeleteAlarmUseCase(repo, scheduler),
         )
         vm.state.test {
             val first = awaitItem()
@@ -52,7 +54,12 @@ class AlarmEditViewModelTest {
     @Test fun `setChallenge updates state`() = runTest(dispatcher) {
         val repo = mockk<AlarmRepository>(relaxed = true)
         val scheduler = mockk<AlarmScheduler>(relaxed = true)
-        val vm = AlarmEditViewModel(SavedStateHandle(), repo, SaveAlarmUseCase(repo, scheduler))
+        val vm = AlarmEditViewModel(
+            SavedStateHandle(),
+            repo,
+            SaveAlarmUseCase(repo, scheduler),
+            DeleteAlarmUseCase(repo, scheduler),
+        )
         vm.setChallenge(DismissChallenge.Shake(count = 25))
         vm.state.test {
             val latest = expectMostRecentItem()
@@ -66,7 +73,12 @@ class AlarmEditViewModelTest {
             coEvery { getById(5L) } returns Alarm(id = 5, hour = 7, minute = 30, enabled = true)
         }
         val scheduler = mockk<AlarmScheduler>(relaxed = true)
-        val vm = AlarmEditViewModel(SavedStateHandle(), repo, SaveAlarmUseCase(repo, scheduler))
+        val vm = AlarmEditViewModel(
+            SavedStateHandle(),
+            repo,
+            SaveAlarmUseCase(repo, scheduler),
+            DeleteAlarmUseCase(repo, scheduler),
+        )
         vm.save(onDone = {})
         dispatcher.scheduler.advanceUntilIdle()
         coVerify { scheduler.schedule(match { it.id == 5L }) }

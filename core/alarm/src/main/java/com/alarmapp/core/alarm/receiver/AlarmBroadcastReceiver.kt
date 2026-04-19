@@ -44,9 +44,12 @@ class AlarmBroadcastReceiver : BroadcastReceiver() {
                     return@launch
                 }
                 AlarmService.start(context, id)
-                // Bump next trigger for repeat alarms so the scheduler keeps them armed.
-                repository.upsert(alarm)
-                if (alarm.repeatDaysMask != 0) {
+                if (alarm.repeatDaysMask == 0) {
+                    // One-shot alarm: disable so the list reflects that it won't fire again.
+                    repository.setEnabled(id, enabled = false)
+                } else {
+                    // Repeat alarm: recompute the next trigger and re-arm the scheduler.
+                    repository.upsert(alarm)
                     repository.getById(id)?.let(scheduler::schedule)
                 }
             } catch (t: Throwable) {

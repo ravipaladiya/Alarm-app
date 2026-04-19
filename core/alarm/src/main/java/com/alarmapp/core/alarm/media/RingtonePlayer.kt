@@ -34,18 +34,27 @@ class RingtonePlayer @Inject constructor(
         val targetVolume = (alarm.volumePercent.coerceIn(0, 100)) / 100f
         val fadeSeconds = alarm.fadeInSeconds.coerceAtLeast(0)
 
-        player = MediaPlayer().apply {
-            setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_ALARM)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .build(),
-            )
-            setDataSource(context, uri)
-            isLooping = true
-            setVolume(if (fadeSeconds == 0) targetVolume else 0f, if (fadeSeconds == 0) targetVolume else 0f)
-            prepare()
-            start()
+        val candidate = MediaPlayer()
+        try {
+            candidate.apply {
+                setAudioAttributes(
+                    AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_ALARM)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build(),
+                )
+                setDataSource(context, uri)
+                isLooping = true
+                val initialVolume = if (fadeSeconds == 0) targetVolume else 0f
+                setVolume(initialVolume, initialVolume)
+                prepare()
+                start()
+            }
+            player = candidate
+        } catch (t: Throwable) {
+            Timber.w(t, "Failed to prepare alarm ringtone; releasing MediaPlayer")
+            runCatching { candidate.release() }
+            return
         }
 
         if (fadeSeconds > 0) {

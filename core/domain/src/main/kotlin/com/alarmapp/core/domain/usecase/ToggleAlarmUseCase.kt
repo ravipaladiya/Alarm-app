@@ -9,8 +9,15 @@ class ToggleAlarmUseCase @Inject constructor(
     private val scheduler: AlarmScheduler,
 ) {
     suspend operator fun invoke(id: Long, enabled: Boolean) {
-        repository.setEnabled(id, enabled)
-        val alarm = repository.getById(id) ?: return
-        if (enabled) scheduler.schedule(alarm) else scheduler.cancel(id)
+        val existing = repository.getById(id) ?: return
+        if (enabled) {
+            // Upsert recomputes nextTriggerEpochMs against the current clock so
+            // re-enabling a fired one-shot alarm doesn't schedule a past time.
+            repository.upsert(existing.copy(enabled = true))
+            repository.getById(id)?.let(scheduler::schedule)
+        } else {
+            repository.setEnabled(id, false)
+            scheduler.cancel(id)
+        }
     }
 }

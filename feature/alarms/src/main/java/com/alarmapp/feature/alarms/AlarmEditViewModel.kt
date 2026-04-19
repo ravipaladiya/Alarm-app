@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.alarmapp.core.domain.model.Alarm
 import com.alarmapp.core.domain.model.DismissChallenge
 import com.alarmapp.core.domain.repository.AlarmRepository
+import com.alarmapp.core.domain.usecase.DeleteAlarmUseCase
 import com.alarmapp.core.domain.usecase.SaveAlarmUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,6 +27,7 @@ class AlarmEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val repository: AlarmRepository,
     private val saveAlarm: SaveAlarmUseCase,
+    private val deleteAlarm: DeleteAlarmUseCase,
 ) : ViewModel() {
 
     private val initialId: Long? = savedStateHandle.get<String>("id")?.toLongOrNull()
@@ -68,7 +70,7 @@ class AlarmEditViewModel @Inject constructor(
 
     fun delete(onDone: () -> Unit) {
         viewModelScope.launch {
-            _state.value.alarm.takeIf { it.id != 0L }?.let { repository.delete(it.id) }
+            _state.value.alarm.takeIf { it.id != 0L }?.let { deleteAlarm(it.id) }
             onDone()
         }
     }

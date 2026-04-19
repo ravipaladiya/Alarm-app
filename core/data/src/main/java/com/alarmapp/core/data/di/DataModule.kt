@@ -26,7 +26,7 @@ object DataModule {
     @Provides @Singleton
     fun provideDatabase(@ApplicationContext context: Context): AlarmDatabase =
         Room.databaseBuilder(context, AlarmDatabase::class.java, "alarm.db")
-            .fallbackToDestructiveMigration(/* dropAllTables = */ true)
+            .fallbackToDestructiveMigration()
             .build()
 
     @Provides fun provideAlarmDao(db: AlarmDatabase): AlarmDao = db.alarmDao()

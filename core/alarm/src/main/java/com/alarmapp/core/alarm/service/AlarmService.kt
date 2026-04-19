@@ -15,6 +15,7 @@ import com.alarmapp.core.alarm.media.RingtonePlayer
 import com.alarmapp.core.alarm.media.VibrationPlayer
 import com.alarmapp.core.domain.model.Alarm
 import com.alarmapp.core.domain.repository.AlarmRepository
+import com.alarmapp.core.domain.scheduler.AlarmScheduler
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -36,6 +37,7 @@ import kotlin.time.Duration.Companion.minutes
 class AlarmService : LifecycleService() {
 
     @Inject lateinit var repository: AlarmRepository
+    @Inject lateinit var scheduler: AlarmScheduler
     @Inject lateinit var ringtonePlayer: RingtonePlayer
     @Inject lateinit var vibrationPlayer: VibrationPlayer
 
@@ -49,6 +51,10 @@ class AlarmService : LifecycleService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val id = intent?.getLongExtra(EXTRA_ALARM_ID, -1L) ?: -1L
+        // Promote to foreground synchronously — API 26+ obliges us to call
+        // startForeground within ~5s of startForegroundService, and the DB
+        // lookup below runs on a coroutine that may exceed that budget.
+        startForegroundCompat(placeholderAlarm(id))
         when (intent?.action) {
             ACTION_START -> startRinging(id)
             ACTION_SNOOZE -> snooze(id)
@@ -59,13 +65,19 @@ class AlarmService : LifecycleService() {
     }
 
     private fun startRinging(id: Long) {
-        if (id < 0) return stopSelf()
+        if (id < 0) {
+            stopSelf()
+            return
+        }
         activeAlarmId = id
         lifecycleScope.launch {
-            val alarm = repository.getById(id) ?: run { stopSelf(); return@launch }
+            val alarm = repository.getById(id) ?: run { dismiss(); return@launch }
+            // Upgrade the placeholder notification now that we have the alarm details.
             startForegroundCompat(alarm)
-            ringtonePlayer.start(alarm)
-            vibrationPlayer.start(alarm)
+            runCatching {
+                ringtonePlayer.start(alarm)
+                vibrationPlayer.start(alarm)
+            }.onFailure { Timber.e(it, "Failed to start ringtone/vibration for alarm $id") }
             autoSilenceJob = launch {
                 delay(alarm.autoSilenceMinutes.minutes)
                 Timber.i("Auto-silencing alarm ${alarm.id}")
@@ -74,16 +86,17 @@ class AlarmService : LifecycleService() {
         }
     }
 
+    private fun placeholderAlarm(id: Long): Alarm =
+        Alarm(id = id.coerceAtLeast(0), hour = 0, minute = 0, label = "Alarm")
+
     private fun snooze(id: Long) {
         lifecycleScope.launch {
-            val alarm = repository.getById(id) ?: return@launch
-            // Schedule a one-off trigger [snoozeMinutes] from now by upserting a
-            // transient copy with an adjusted nextTriggerEpochMs — kept simple for
-            // the scaffold; production logic should track snooze count per fire.
-            val reArmed = alarm.copy(
-                nextTriggerEpochMs = System.currentTimeMillis() + alarm.snoozeMinutes * 60_000L,
-            )
-            repository.upsert(reArmed)
+            val alarm = repository.getById(id) ?: run { dismiss(); return@launch }
+            // Schedule a one-off fire at now + snoozeMinutes. We bypass the
+            // repository because upsert() would recompute nextTriggerEpochMs
+            // from the alarm's canonical hour/minute and overwrite our offset.
+            val snoozeTriggerMs = System.currentTimeMillis() + alarm.snoozeMinutes * 60_000L
+            scheduler.schedule(alarm.copy(nextTriggerEpochMs = snoozeTriggerMs))
             dismiss()
         }
     }
