@@ -20,6 +20,9 @@ interface AlarmDao {
     @Query("SELECT * FROM alarms WHERE enabled = 1")
     suspend fun allEnabled(): List<AlarmEntity>
 
+    @Query("SELECT * FROM alarms")
+    suspend fun all(): List<AlarmEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(entity: AlarmEntity): Long
 

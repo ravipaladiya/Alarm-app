@@ -4,6 +4,15 @@ plugins {
     id("alarmapp.android.application")
     id("alarmapp.android.compose")
     id("alarmapp.android.hilt")
+    // Declared but not applied here — we only apply it conditionally below so
+    // contributor builds without a Firebase project still compile.
+    alias(libs.plugins.google.services) apply false
+}
+
+val googleServicesJson: java.io.File = rootProject.file("app/google-services.json")
+val hasGoogleServices = googleServicesJson.exists()
+if (hasGoogleServices) {
+    apply(plugin = libs.plugins.google.services.get().pluginId)
 }
 
 // Read keystore credentials from a git-ignored keystore.properties file (see
