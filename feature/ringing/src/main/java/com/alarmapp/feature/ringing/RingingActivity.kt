@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -20,6 +21,7 @@ class RingingActivity : ComponentActivity() {
         setContent {
             AlarmAppTheme {
                 val vm: RingingViewModel = hiltViewModel()
+                LaunchedEffect(alarmId) { vm.bindAlarm(alarmId) }
                 val state by vm.state.collectAsStateWithLifecycle()
                 RingingScreen(
                     state = state,
@@ -33,7 +35,6 @@ class RingingActivity : ComponentActivity() {
                         finish()
                     },
                 )
-                vm.bindAlarm(alarmId)
             }
         }
     }

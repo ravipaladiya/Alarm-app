@@ -36,7 +36,7 @@ class SleepRepositoryImpl @Inject constructor(
     }
 
     override suspend fun endSession(id: Long, wakeEpochMs: Long) = withContext(io) {
-        dao.end(id, wakeEpochMs, durationMs = 0) // duration recomputed below
+        dao.end(id, wakeEpochMs)
     }
 
     override suspend fun rateSession(id: Long, quality: SleepQuality) = withContext(io) {

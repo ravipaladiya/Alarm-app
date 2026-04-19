@@ -17,9 +17,9 @@ interface SleepDao {
 
     @Query(
         "UPDATE sleep_sessions SET wakeEpochMs = :wakeMs, " +
-            "durationMs = :durationMs WHERE id = :id",
+            "durationMs = :wakeMs - bedtimeEpochMs WHERE id = :id",
     )
-    suspend fun end(id: Long, wakeMs: Long, durationMs: Long)
+    suspend fun end(id: Long, wakeMs: Long)
 
     @Query("UPDATE sleep_sessions SET quality = :quality WHERE id = :id")
     suspend fun rate(id: Long, quality: String)

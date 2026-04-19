@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase
 @Database(
     entities = [AlarmEntity::class, SleepSessionEntity::class],
     version = 1,
-    exportSchema = true,
+    exportSchema = false,
 )
 abstract class AlarmDatabase : RoomDatabase() {
     abstract fun alarmDao(): AlarmDao
