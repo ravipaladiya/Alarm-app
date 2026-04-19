@@ -1,0 +1,36 @@
+build:
+  maxIssues: 0
+  excludeCorrectable: false
+
+config:
+  validation: true
+  warningsAsErrors: false
+
+processors:
+  active: true
+
+console-reports:
+  active: true
+
+complexity:
+  LongMethod:
+    threshold: 80
+  LongParameterList:
+    functionThreshold: 8
+    constructorThreshold: 10
+  TooManyFunctions:
+    thresholdInClasses: 20
+    thresholdInObjects: 20
+
+style:
+  MagicNumber:
+    active: false
+  ReturnCount:
+    max: 4
+  MaxLineLength:
+    maxLineLength: 140
+
+naming:
+  FunctionNaming:
+    functionPattern: '[a-zA-Z][a-zA-Z0-9]*'
+    excludeClassPattern: '$^'

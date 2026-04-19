@@ -1,0 +1,8 @@
+## Copy this file to `local.properties` and fill in your own paths/keys.
+## Never commit the real `local.properties`.
+
+# Required: Android SDK location.
+sdk.dir=/Users/you/Library/Android/sdk
+
+# Optional: fail the build on Kotlin warnings. Default is false.
+warningsAsErrors=false
