@@ -8,4 +8,7 @@ android {
 
 dependencies {
     implementation(project(":feature:permissions"))
+
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.runner)
 }

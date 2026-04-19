@@ -13,7 +13,10 @@ import kotlinx.serialization.json.Json
  * The receiving device recomputes trigger time locally via
  * `nextTriggerEpochMillis` after upsert.
  */
-data class RemoteAlarm(
+// @JvmOverloads forces the Kotlin compiler to emit a Java no-arg constructor
+// alongside the default-arg variants; Firestore's reflection-based toObject()
+// instantiation depends on that no-arg constructor being present.
+data class RemoteAlarm @JvmOverloads constructor(
     val id: Long = 0,
     val label: String = "",
     val hour: Int = 0,

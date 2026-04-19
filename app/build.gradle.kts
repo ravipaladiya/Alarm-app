@@ -22,7 +22,7 @@ if (hasGoogleServices) {
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 val keystoreProperties = Properties().apply {
     if (keystorePropertiesFile.exists()) {
-        keystorePropertiesFile.inputStream().use(::load)
+        keystorePropertiesFile.inputStream().use { stream -> load(stream) }
     }
 }
 val hasReleaseKeystore = keystoreProperties.getProperty("storeFile") != null
