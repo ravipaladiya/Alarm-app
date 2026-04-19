@@ -5,6 +5,11 @@ plugins {
 
 android {
     namespace = "com.alarmapp.core.alarm"
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -22,4 +27,5 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
     testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.ext.junit)
 }

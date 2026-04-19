@@ -10,6 +10,12 @@ android {
     // Expose the exported Room schemas as androidTest assets so
     // MigrationTestHelper can load the previous schema JSON at runtime.
     sourceSets.getByName("androidTest").assets.srcDir("$projectDir/schemas")
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 // Export Room schemas to source control so every version bump is reviewable
@@ -34,6 +40,8 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.mockk)
     testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.ext.junit)
+    testImplementation(libs.androidx.room.testing)
 
     androidTestImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.androidx.test.ext.junit)

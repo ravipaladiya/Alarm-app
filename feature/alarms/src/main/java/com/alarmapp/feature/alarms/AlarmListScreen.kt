@@ -112,7 +112,7 @@ fun AlarmListScreen(
 }
 
 @Composable
-private fun EmptyState(onAddAlarm: () -> Unit) {
+internal fun EmptyState(onAddAlarm: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
