@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="challenge_math_prompt">Solve to dismiss</string>
+    <string name="challenge_shake_title">Shake %1$d times to dismiss</string>
+    <string name="challenge_shake_progress">%1$d / %2$d</string>
+    <string name="challenge_typing_prompt">Type this exactly</string>
+    <string name="challenge_qr_title">Scan the configured QR code</string>
+    <string name="challenge_qr_grant_camera">Grant camera permission</string>
+    <string name="challenge_qr_permission_denied">Camera access is required to scan the dismiss code.</string>
+    <string name="challenge_qr_unconfigured">This alarm has no QR payload configured.</string>
+    <string name="challenge_qr_wrong_code">Scanned code did not match. Keep trying.</string>
+</resources>

@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlin.random.Random
@@ -29,6 +30,7 @@ fun MathChallenge(
     }
 
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        Text(text = stringResource(R.string.challenge_math_prompt), style = MaterialTheme.typography.titleMedium)
         Text(text = problem.prompt, style = MaterialTheme.typography.headlineMedium)
         OutlinedTextField(
             value = input,

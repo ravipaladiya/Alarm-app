@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlin.math.sqrt
 
@@ -53,11 +54,14 @@ fun ShakeChallenge(
     }
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(text = "Shake $count times to dismiss", style = MaterialTheme.typography.titleMedium)
+        Text(
+            text = stringResource(R.string.challenge_shake_title, count),
+            style = MaterialTheme.typography.titleMedium,
+        )
         LinearProgressIndicator(
             progress = { (shakes.toFloat() / count).coerceIn(0f, 1f) },
         )
-        Text(text = "$shakes / $count")
+        Text(text = stringResource(R.string.challenge_shake_progress, shakes, count))
     }
 }
 

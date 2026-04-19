@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -23,7 +24,10 @@ fun TypingChallenge(
         if (input.trim().equals(text.trim(), ignoreCase = true)) onComplete()
     }
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text("Type this exactly:", style = MaterialTheme.typography.titleMedium)
+        Text(
+            text = stringResource(R.string.challenge_typing_prompt),
+            style = MaterialTheme.typography.titleMedium,
+        )
         Text(text, style = MaterialTheme.typography.headlineMedium)
         OutlinedTextField(value = input, onValueChange = { input = it }, singleLine = true)
     }
