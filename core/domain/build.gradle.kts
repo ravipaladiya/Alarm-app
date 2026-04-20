@@ -1,21 +1,14 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
-
+// Use the JVM toolchain to force every JVM tool in this module (javac AND
+// kotlinc) onto JDK 17, regardless of the JDK running the Gradle daemon.
+// Without this, a daemon on JDK 21 produces compileKotlin=21 / compileJava=17
+// which Kotlin 2.0+ rejects with "Inconsistent JVM-target compatibility".
 kotlin {
-    // Pin Kotlin compilation to JVM 17 so it matches compileJava regardless
-    // of the JDK running the Gradle daemon (which may be 21+ locally).
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
-    }
+    jvmToolchain(17)
 }
 
 dependencies {
